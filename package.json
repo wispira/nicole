@@ -1,0 +1,19 @@
+{
+	"name": "nicole",
+	"version": "0.0.1",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"build": "tsc --project tsconfig.dist.json",
+		"watch": "tsc-watch --project tsconfig.test.json --onSuccess \"node ./dist/test/index.js\"",
+		"test": "tsc --project tsconfig.test.json && node dist/test/index.js"
+	},
+	"license": "ISC",
+	"dependencies": {
+		"csstype": "^2.6.9"
+	},
+	"devDependencies": {
+		"tsc-watch": "^4.2.3",
+		"typescript": "^3.8.3"
+	}
+}
