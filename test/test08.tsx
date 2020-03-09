@@ -2,7 +2,7 @@ import { React } from "../src/index";
 import { equals } from "./utility";
 
 /**
- * Test custom component
+ * Test function component
  */
 export const test = () => {
 	equals(Page({}), `<html><head><title>Page</title></head><body><h1>Page</h1><p>Test</p></body></html>`);
@@ -12,7 +12,7 @@ interface Props extends React.Props {
 	title: string;
 }
 
-const Layout: React.Component<Props> = (props) => {
+const Layout: React.FunctionComponent<Props> = (props) => {
 	return (
 		<html>
 			<head>
@@ -26,7 +26,7 @@ const Layout: React.Component<Props> = (props) => {
 	);
 };
 
-const Page: React.Component = () => (
+const Page: React.FC = () => (
 	<Layout title="Page">
 		<p>Test</p>
 	</Layout>

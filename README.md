@@ -47,7 +47,7 @@ interface Props extends React.Props {
   title: string;
 }
 
-const Layout: React.Component<Props> = (props) => {
+const Layout: React.FC<Props> = (props) => {
   return (
     <html>
       <head>
@@ -69,7 +69,7 @@ const names = [
   'Pat',
 ];
 
-const Page: React.Component = () => (
+const Page: React.FC = () => (
   <Layout title="Page">
     <ul>
       {names.map((name) => (

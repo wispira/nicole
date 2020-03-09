@@ -6,56 +6,121 @@ import { nonPixelStyleProperties } from "./non-pixel-style-properties";
 declare global {
 	namespace JSX {
 		type IntrinsicElements = HtmlElements;
+		type Element = string;
+		type ElementClass = React.Component;
 	}
 }
 
 export namespace React {
 
-	export interface Component<P extends Props = Props> {
-		(props: Readonly<P>): any;
+	export interface FunctionComponent<P extends Props = Props> {
+		(props: Readonly<P>): JSX.Element;
+	}
+
+	export type FC<P extends Props = Props> = FunctionComponent<P>;
+
+	export abstract class Component<P extends Props = Props> {
+		
+		public constructor(
+			protected props: Readonly<P>,
+		) {
+		}
+		
+		public abstract render(): JSX.Element;
 	}
 
 	export interface Props {
 		children?: Children;
 	}
 
-	type Child = string | Children;
+	type Child = JSX.Element | Children;
 
 	type Children = Child[];
 
-	type CEType = string | Component | undefined;
+	type CEType = string | FunctionComponent | typeof Component | undefined;
 
 	type CEProps = {
 		[key: string]: any;
 	};
 
-	export const createElement = (type: CEType, props?: CEProps, ...children: Children) => {
-		// console.log(type, props, children);
+	export const createElement = (type: CEType, ceprops?: CEProps, ...children: Children) => {
+		// console.log(type, ceprops, children);
 		let result = "";
-		if(!type) {
-			if(children) {
-				result = joinChildren(children);
-			}
+		if(type === undefined) {
+			result = renderFragment(children);
 		}
 		if(typeof type === "string") {
-			result = createHtmlElement(type, props, children);
+			result = renderHtmlElement(
+				type,
+				ceprops,
+				children,
+			);
 		}
 		if(typeof type === "function") {
-			const component = type;
-			result = component({
-				...props,
-				children,
-			});
+			if(type.prototype) {
+				result = renderClassComponent(
+					// @ts-ignore
+					type,
+					ceprops,
+					children,
+				);
+			} else {
+				result = renderFunctionComponent(
+					// @ts-ignore
+					type,
+					ceprops,
+					children,
+				);
+			}
 		}
 		// console.log(result);
 		return result;
 	}
 
-	const createHtmlElement = (tagName: string, props: HtmlAttributes | undefined, children: Children) => {
+	const renderFragment = (children: Children) => {
 		let result = "";
-		result += "<" + tagName;
-		if(props) {
-			result += " " + joinHtmlAttributes(props);
+		if(children) {
+			result = joinChildren(children);
+		}
+		return result;
+	}
+
+	const renderClassComponent = (
+		componentClass: typeof Component,
+		ceprops: CEProps | undefined,
+		children: Children,
+	) => {
+		const props: Props = {
+			...ceprops,
+			children,
+		};
+		// @ts-ignore
+		const component = new componentClass(props) as Component;
+		const result = component.render();
+		return result;
+	}
+
+	const renderFunctionComponent = (
+		component: FunctionComponent,
+		ceprops: CEProps | undefined,
+		children: Children,
+	) => {
+		const props: Props = {
+			...ceprops,
+			children,
+		};
+		const result = component(props);
+		return result;
+	}
+
+	const renderHtmlElement = (
+		tagName: string,
+		attributes: HtmlAttributes | undefined,
+		children: Children,
+	) => {
+		let result = "<" + tagName;
+		if(attributes) {
+			result += " " + joinHtmlAttributes(attributes);
 		}
 		// @ts-ignore
 		if(voidElements.has(tagName)) {

@@ -2,7 +2,7 @@ const assertions = [];
 const errors: Error[] = [];
 
 export const start = () => {
-    // console.clear();
+    console.clear();
     assertions.length = 0;
     errors.length = 0;
 }

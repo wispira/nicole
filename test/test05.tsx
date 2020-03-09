@@ -5,9 +5,10 @@ import { equals } from "./utility";
  * Test various data types
  */
 export const test = () => {
-	equals(ArrayComponent(), "abc");
 	equals(EmptyComponent(), "");
+	equals(typeof EmptyComponent(), "string");
 	equals(EmptyWithChildrenComponent(), "a");
+	equals(ArrayComponent(), "abc");
 	equals(UndefinedComponent(), "");
 	equals(NullComponent(), "");
 	equals(Number0Component(), "0");
