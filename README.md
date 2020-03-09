@@ -23,7 +23,7 @@ Add the following to your `tsconfig.json` file
 
 #### Basic Example
 
-```typescript
+```tsx
 import { React } from 'nicole';
 
 const Component = () => (
@@ -40,7 +40,7 @@ const Component = () => (
 
 #### Advanced Example
 
-```typescript
+```tsx
 import { React } from 'nicole';
 
 interface Props extends React.Props {
