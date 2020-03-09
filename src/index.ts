@@ -59,6 +59,9 @@ export namespace React {
 		}
 		// @ts-ignore
 		if(voidElements.has(tagName)) {
+			if(children.length) {
+				throw new Error("Void elements can't have children");
+			}
 			result += " />";
 		} else {
 			result += ">";
