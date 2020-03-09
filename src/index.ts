@@ -5,7 +5,8 @@ import { nonPixelStyleProperties } from "./non-pixel-style-properties";
 
 declare global {
 	namespace JSX {
-		type IntrinsicElements = HtmlElements;
+		interface IntrinsicElements extends HtmlElements {
+		}
 		type Element = string;
 		type ElementClass = React.Component;
 	}
