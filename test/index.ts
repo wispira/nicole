@@ -14,6 +14,7 @@ import { test as test11 } from "./test11";
 import { test as test12 } from "./test12";
 import { test as test13 } from "./test13";
 import { test as test14 } from "./test14";
+import { test as test15 } from "./test15";
 
 start();
 
@@ -32,5 +33,6 @@ test11();
 test12();
 test13();
 test14();
+test15();
 
 stop();
