@@ -7,14 +7,16 @@
 	"scripts": {
 		"build": "tsc --project tsconfig.dist.json",
 		"prepack": "npm install && npm run build",
-		"watch": "tsc-watch --project tsconfig.test.json --onSuccess \"node ./dist/test/index.js\"",
+		"watch": "tsc-watch --project tsconfig.test.json --onSuccess \"node dist/test/index.js\"",
 		"test": "tsc --project tsconfig.test.json && node dist/test/index.js"
 	},
 	"license": "ISC",
 	"dependencies": {
+		"classnames": "^2.2.6",
 		"csstype": "^2.6.9"
 	},
 	"devDependencies": {
+		"@types/classnames": "^2.2.10",
 		"tsc-watch": "^4.2.3",
 		"typescript": "^3.8.3"
 	}

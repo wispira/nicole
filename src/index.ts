@@ -1,58 +1,13 @@
-import { HtmlElements, HtmlAttributes, CSSProperties } from "./elements";
+import * as classNames from "classnames";
+import { HtmlElements, HtmlAttributes, CssProperties } from "./elements";
+import { voidElements } from "./void-elements";
+import { nonPixelStyleProperties } from "./non-pixel-style-properties";
 
 declare global {
 	namespace JSX {
 		type IntrinsicElements = HtmlElements;
 	}
 }
-
-const voidElements = new Set<keyof HtmlElements>([
-	"area",
-	"base",
-	"br",
-	"col",
-	"embed",
-	"hr",
-	"img",
-	"input",
-	"link",
-	"meta",
-	"param",
-	"source",
-	"track",
-	"wbr",
-]);
-
-const styleNonPixelAttribute = new Set<keyof CSSProperties>([
-	"borderImageOutset",
-	"borderImageSlice",
-	"borderImageWidth",
-	"boxFlex",
-	"boxFlexGroup",
-	"boxOrdinalGroup",
-	"columnCount",
-	"columns",
-	"flex",
-	"flexGrow",
-	"flexShrink",
-	"gridArea",
-	"gridRow",
-	"gridRowEnd",
-	"gridRowStart",
-	"gridColumn",
-	"gridColumnEnd",
-	"gridColumnStart",
-	"fontWeight",
-	"lineClamp",
-	"lineHeight",
-	"opacity",
-	"order",
-	"orphans",
-	"tabSize",
-	"widows",
-	"zIndex",
-	"zoom",
-]);
 
 export namespace React {
 
@@ -119,32 +74,33 @@ export namespace React {
 			let value = attributes[name];
 			if(name === "className") {
 				name = "class";
+				value = classNames(value);
+			}
+			if(name === "style") {
+				value = joinHtmlStyles(value);
 			}
 			name = name.toLowerCase();
 			if(typeof value === "boolean") {
 				return name;
 			} else {
-				if(name === "style") {
-					value = joinHtmlStyles(value);
-				}
 				return `${name}="${value}"`;
 			}
 		}).join(" ");
 	}
 
-	const joinHtmlStyles = (styles: CSSProperties): string => {
+	const joinHtmlStyles = (styles: CssProperties): string => {
 		return Object.keys(styles).map((name) => {
 			// @ts-ignore
 			let value = styles[name];
 			if(typeof value === "number") {
 				// @ts-ignore
-				if(!styleNonPixelAttribute.has(name)) {
+				if(!nonPixelStyleProperties.has(name)) {
 					value = value + "px";
 				}
 			}
 			name = camelToKebab(name);
-			return `${name}: ${value}`;
-		}).join("; ");
+			return `${name}: ${value};`;
+		}).join(" ");
 	}
 
 	const joinChildren = (children: Children): string => {

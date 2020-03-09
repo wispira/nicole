@@ -1,4 +1,5 @@
 import * as CSS from "csstype";
+import { ClassValue } from "classnames/types";
 
 type Booleanish = boolean | "true" | "false";
 
@@ -128,7 +129,7 @@ interface HtmlElement extends AriaAttributes, DomAttributes {
 	suppressContentEditableWarning?: boolean;
 	suppressHydrationWarning?: boolean;
 	accessKey?: string;
-	className?: string;
+	className?: ClassValue;
 	contentEditable?: Booleanish | "inherit";
 	contextMenu?: string;
 	dir?: string;
@@ -139,7 +140,7 @@ interface HtmlElement extends AriaAttributes, DomAttributes {
 	placeholder?: string;
 	slot?: string;
 	spellCheck?: Booleanish;
-	style?: CSSProperties;
+	style?: CssProperties;
 	tabIndex?: number;
 	title?: string;
 	translate?: "yes" | "no";
@@ -332,7 +333,7 @@ interface DomAttributes {
 	onTransitionEndCapture?: string;
 }
 
-export interface CSSProperties extends CSS.Properties<string | number> {
+export interface CssProperties extends CSS.Properties<string | number> {
 }
 
 interface AriaAttributes {
