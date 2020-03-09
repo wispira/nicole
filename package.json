@@ -2,9 +2,11 @@
 	"name": "nicole",
 	"version": "0.0.1",
 	"description": "",
-	"main": "index.js",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
 	"scripts": {
 		"build": "tsc --project tsconfig.dist.json",
+		"prepack": "npm run build",
 		"watch": "tsc-watch --project tsconfig.test.json --onSuccess \"node ./dist/test/index.js\"",
 		"test": "tsc --project tsconfig.test.json && node dist/test/index.js"
 	},
