@@ -7,7 +7,7 @@
 	"types": "dist/index.d.ts",
 	"scripts": {
 		"build": "tsc --project tsconfig.dist.json",
-		"prepublish": "npm install && npm run build",
+		"publish": "npm ci && npm run build && npm publish",
 		"watch": "tsc-watch --project tsconfig.test.json --onSuccess \"node dist/test/index.js\"",
 		"test": "tsc --project tsconfig.test.json && node dist/test/index.js"
 	},
